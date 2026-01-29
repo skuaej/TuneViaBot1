@@ -25,12 +25,12 @@ MONGO_DB_URI = getenv("MONGO_DB_URI")
 LOGGER_ID = int(getenv("LOGGER_ID", -1002014167331))
 
 # ── Limits (durations in min/sec; sizes in bytes) ──────────────────────────────
-DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 300))
+DURATION_LIMIT_MIN = int(getenv("DURATION_LIMIT", 30))
 SONG_DOWNLOAD_DURATION = int(getenv("SONG_DOWNLOAD_DURATION", "1200"))
 SONG_DOWNLOAD_DURATION_LIMIT = int(getenv("SONG_DOWNLOAD_DURATION_LIMIT", "1800"))
 TG_AUDIO_FILESIZE_LIMIT = int(getenv("TG_AUDIO_FILESIZE_LIMIT", "157286400"))
 TG_VIDEO_FILESIZE_LIMIT = int(getenv("TG_VIDEO_FILESIZE_LIMIT", "1288490189"))
-PLAYLIST_FETCH_LIMIT = int(getenv("PLAYLIST_FETCH_LIMIT", "30"))
+PLAYLIST_FETCH_LIMIT = int(getenv("PLAYLIST_FETCH_LIMIT", "6"))
 
 # ── External APIs ──────────────────────────────────────────────────────────────
 COOKIE_URL = getenv("COOKIE_URL")  # required (paste link)
@@ -48,8 +48,8 @@ UPSTREAM_BRANCH = getenv("UPSTREAM_BRANCH", "Master")
 GIT_TOKEN = getenv("GIT_TOKEN")
 
 # ───── Support & Community ───── #
-SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/CertifiedNetwork")
-SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/CertifiedDiscussion")
+SUPPORT_CHANNEL = getenv("SUPPORT_CHANNEL", "https://t.me/jasminemusicgc")
+SUPPORT_CHAT = getenv("SUPPORT_CHAT", "https://t.me/jasminemusicgc")
 
 # ───── Assistant Auto Leave ───── #
 AUTO_LEAVING_ASSISTANT = False
