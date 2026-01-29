@@ -399,7 +399,8 @@ class YouTubeAPI:
                     return stream_url, None
                 return None, None
 
-            if await is_on_off(1):
+            # FIXED: Removed await here
+            if is_on_off(1):
                 p = await yt_dlp_download(link, type="video", title=await self.title(link))
                 return (p, True) if p else (None, None)
 
@@ -416,4 +417,5 @@ class YouTubeAPI:
             return None, None
 
         p = await yt_dlp_download(link, type="audio", title=await self.title(link))
-        return (p, True) if p else (None, None) 
+        return (p, True) if p else (None, None)
+
