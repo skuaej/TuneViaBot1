@@ -1,6 +1,3 @@
-Here is the full, corrected Tune/platforms/Youtube.py file.
-I have applied the fix to the track method so it automatically handles search queries (like "sanam re") using ytsearch1: when the primary search method fails.
-# Authored By Certified Coders © 2025
 
 import asyncio
 import contextlib
