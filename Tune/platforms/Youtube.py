@@ -1,4 +1,6 @@
-﻿# Authored By Certified Coders © 2025
+Here is the full, corrected Tune/platforms/Youtube.py file.
+I have applied the fix to the track method so it automatically handles search queries (like "sanam re") using ytsearch1: when the primary search method fails.
+# Authored By Certified Coders © 2025
 
 import asyncio
 import contextlib
@@ -212,8 +214,15 @@ class YouTubeAPI:
                     f"for query/URL: '{prepared_link}'"
                 )
         except Exception as search_err:
+            # === FALLBACK START ===
+            # Detect if input is a URL or a search query
+            dlp_input = prepared_link
+            if not dlp_input.startswith("http"):
+                # If it's text, use ytsearch1: to find the top result
+                dlp_input = f"ytsearch1:{dlp_input}"
+
             stdout, stderr = await _exec_proc(
-                "yt-dlp", *(_cookies_args()), "--dump-json", "--no-warnings", prepared_link
+                "yt-dlp", *(_cookies_args()), "--dump-json", "--no-warnings", dlp_input
             )
 
             def _both_failed(details: str) -> ValueError:
@@ -229,12 +238,19 @@ class YouTubeAPI:
 
             try:
                 info = json.loads(stdout.decode())
-            except json.JSONDecodeError as json_err:
+                # If yt-dlp returned a search wrapper (playlist of 1), extract the entry
+                if "entries" in info:
+                    if info["entries"]:
+                        info = info["entries"][0]
+                    else:
+                        raise ValueError("yt-dlp search returned no entries")
+            except (json.JSONDecodeError, ValueError, IndexError, KeyError) as json_err:
                 raw = stdout.decode()[:400]
                 raise _both_failed(
-                    f"  2. yt-dlp JSON error: {json_err}\n"
+                    f"  2. yt-dlp JSON/Processing error: {json_err}\n"
                     f"     Raw: {raw}..."
                 ) from json_err
+            # === FALLBACK END ===
 
         thumb = (
             info.get("thumbnail")
@@ -403,3 +419,4 @@ class YouTubeAPI:
 
         p = await yt_dlp_download(link, type="audio", title=await self.title(link))
         return (p, True) if p else (None, None)
+
