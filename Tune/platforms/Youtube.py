@@ -1,6 +1,5 @@
 
-# Authored By Certified Coders © 2025
-
+# Authored By Certified Coders ©
 import asyncio
 import contextlib
 import json
@@ -145,14 +144,9 @@ class YouTubeAPI:
         if use_cache and not q.startswith("http"):
             res = await cached_youtube_search(q)
             return res[0] if res else None
-        
-        # Wrapped in try-except to prevent library crashes on specific URLs
-        try:
-            data = await VideosSearch(q, limit=1).next()
-            result = data.get("result", [])
-            return result[0] if result else None
-        except Exception:
-            return None
+        data = await VideosSearch(q, limit=1).next()
+        result = data.get("result", [])
+        return result[0] if result else None
 
     @capture_internal_err
     async def is_live(self, link: str) -> bool:
@@ -423,4 +417,4 @@ class YouTubeAPI:
 
         p = await yt_dlp_download(link, type="audio", title=await self.title(link))
         return (p, True) if p else (None, None)
-
+ 20
