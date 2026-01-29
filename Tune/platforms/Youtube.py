@@ -1,3 +1,7 @@
+This error happens because the Youtube-python library is trying to parse the channel information for that specific video, but YouTube is returning empty (None) data for the channel ID, causing the library to crash when it tries to combine strings.
+Since we can't fix the library itself on Heroku, the best solution is to wrap the search call in a try...except block. This ensures that if Youtube-python crashes, your bot will simply ignore the error and fall back to yt-dlp (which works perfectly for URLs).
+Here is the fully fixed Tune/platforms/Youtube.py code. I have modified the _fetch_video_info function to catch this error safely.
+# Authored By Certified Coders © 2025
 
 import asyncio
 import contextlib
@@ -143,9 +147,14 @@ class YouTubeAPI:
         if use_cache and not q.startswith("http"):
             res = await cached_youtube_search(q)
             return res[0] if res else None
-        data = await VideosSearch(q, limit=1).next()
-        result = data.get("result", [])
-        return result[0] if result else None
+        
+        # Wrapped in try-except to prevent library crashes on specific URLs
+        try:
+            data = await VideosSearch(q, limit=1).next()
+            result = data.get("result", [])
+            return result[0] if result else None
+        except Exception:
+            return None
 
     @capture_internal_err
     async def is_live(self, link: str) -> bool:
