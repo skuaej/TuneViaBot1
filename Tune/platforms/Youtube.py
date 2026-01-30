@@ -19,7 +19,7 @@ except ImportError:
 
 
 # 🔥 YOUR AUDIO API (returns JSON: { "audio": "<direct_url>" })
-YT_API = "/audio"
+YT_API = "https://various-enrica-uhhy5-bba06a22.koyeb.app/audio"
 
 
 # ===============================
